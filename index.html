@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    margin: 0;
+    overflow: hidden;
+    background-color: white;
+  }
+  #drawingCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="drawingCanvas" width="800" height="600"></canvas>
+
+<script>
+  const canvas = document.getElementById('drawingCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  let x = canvas.width / 2;
+  let y = canvas.height / 2;
+  let angle = Math.random() * Math.PI * 2;
+  let velocity = 2;
+  let changeFrequency = 0.1;
+  let lineWidth = 2;
+
+  ctx.strokeStyle = 'rgb(0, 0, 0)'; // Set initial color to black
+  ctx.lineWidth = lineWidth;
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+
+  function draw() {
+    const randomFactor = Math.random() * 0.5 + 0.75;
+    const randomAngle = (Math.random() - 0.5) * changeFrequency;
+
+    x += velocity * Math.cos(angle) * randomFactor;
+    y += velocity * Math.sin(angle) * randomFactor;
+    angle += randomAngle;
+
+    // Wrap the drawing at the canvas bounds and move to the new position without drawing a line
+    if (x < 0) {
+      x = canvas.width;
+      ctx.moveTo(x, y);
+    } else if (x > canvas.width) {
+      x = 0;
+      ctx.moveTo(x, y);
+    }
+    if (y < 0) {
+      y = canvas.height;
+      ctx.moveTo(x, y);
+    } else if (y > canvas.height) {
+      y = 0;
+      ctx.moveTo(x, y);
+    }
+
+    ctx.lineTo(x, y);
+    ctx.stroke();
+
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+</script>
+</body>
+</html>
