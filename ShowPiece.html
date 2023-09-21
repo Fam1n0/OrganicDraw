@@ -91,9 +91,11 @@
     }
 
     function saveSnapshot() {
+        let date = new Date();
+        let formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}_${String(date.getHours()).padStart(2, '0')}-${String(date.getMinutes()).padStart(2, '0')}-${String(date.getSeconds()).padStart(2, '0')}`;
         let link = document.createElement('a');
-        link.download = 'snapshot.png';
-        link.href = canvas.toDataURL()
+        link.download = `snapshot_${formattedDate}.png`;
+        link.href = canvas.toDataURL();
         link.click();
     }
 
